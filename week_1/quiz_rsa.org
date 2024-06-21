@@ -1,0 +1,120 @@
+#+AUTHOR: Marcio Woitek
+#+TITLE: Quiz on RSA
+#+DATE:
+#+LATEX_HEADER: \usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+#+LATEX_HEADER: \usepackage[american]{babel}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage[sc]{mathpazo}
+#+LATEX_HEADER: \linespread{1.05}
+#+LATEX_HEADER: \renewcommand{\labelitemi}{$\rhd$}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \setlist[itemize]{leftmargin=*}
+#+LATEX_HEADER: \setlist{nosep}
+#+LATEX_HEADER: \newcommand{\Mod}[1]{\:\mathrm{mod}\:#1}
+#+OPTIONS: toc:nil
+#+STARTUP: hideblocks
+
+#+BEGIN_SRC latex
+\thispagestyle{empty}
+\pagestyle{empty}
+#+END_SRC
+
+* Problem 1
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer: 20*
+
+\begin{equation}
+\varphi(33) = \varphi(3\cdot 11) = (3-1)(11-1) = 20.
+\end{equation}
+
+* Problem 2
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer: $p-1$*
+
+* Problem 3
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer: 4*\\
+
+When the consider the integers $k$ in the range $1\leq k\leq 12$, there are only 4
+integers that are relatively prime to 12: 1, 5, 7, 11. Hence:
+\begin{equation}
+\varphi(12)=4.
+\end{equation}
+
+* Problem 4
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer: 1*\\
+
+First notice that $77 = 7 \cdot 11$. Since 7 and 11 are prime numbers, the value
+of the totient function for 77 is
+\begin{equation}
+\varphi(77) = (7 - 1) (11 - 1) = 60.
+\end{equation}
+This result allows us to write
+\begin{equation*}
+10^{60} \Mod 77 = 10^{\varphi(77)} \Mod 77.
+\end{equation*}
+Next, we use the fact that $10 = 2 \cdot 5$. This expression makes it clear that
+10 and 77 don't have prime factors in common. In other words, these numbers are
+relatively prime. Then we can apply Euler's totient theorem, which yields
+\begin{equation}
+10^{60} \Mod 77 = 1.
+\end{equation}
+
+* Problem 5
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer: 1*\\
+
+To determine the last digit of $a^{4}$, we need to compute $a^{4}\Mod 10$. To
+compute this value, first notice that
+\begin{equation}
+\varphi(10)=\varphi(2\cdot 5)=(2-1)(5-1)=4.
+\end{equation}
+We'll also use the fact that $a$ and 10 are relatively prime. This has to be
+true, since by hypothesis $a$ is not divisible by 2 or 5. This means 2 and 5 are
+not prime factors of $a$. But they are the only prime factors of 10. Then $a$
+and 10 don't have prime factors in common, i.e., they're relatively prime.\\
+With the aid of Euler's theorem, we obtain the following for the last digit of
+$a^{4}$:
+\begin{equation}
+a^{4}\Mod 10=a^{\varphi(10)}\Mod 10=1.
+\end{equation}
+
+* Problem 6
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- $\varphi(n)$: $\varphi(n)=\varphi(33)=20$ [see Problem 1]
+- $e^{\varphi(n)}\Mod n$: $e$ and $n$ are relatively prime, which means this
+  value equals 1 (by Euler's theorem).
+- $\mathrm{GCD}(e,\varphi(n))$: $\mathrm{GCD}(e,\varphi(n))=\mathrm{GCD}(7,20)=1$
+- $(d,k)$ such that $de-k\varphi(n)=1$: We need to solve the equation
+  $7d-20k=1$. We could do that using the extended Euclidean algorithm. But it's
+  easy to guess a solution: $(d,k)=(3,1)$.
+- Public Key: $(e,n)=(7,33)$
+- Private Key: $(d,n)=(3,33)$
+
+* Problem 7
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- The prime factors of $n$.
+- The Euler totient function $\varphi(n)$.

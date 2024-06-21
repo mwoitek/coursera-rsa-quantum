@@ -1,0 +1,123 @@
+% Created 2024-06-20 Thu 23:38
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\usepackage[american]{babel}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[sc]{mathpazo}
+\linespread{1.05}
+\renewcommand{\labelitemi}{$\rhd$}
+\setlength\parindent{0pt}
+\setlist[itemize]{leftmargin=*}
+\setlist{nosep}
+\newcommand{\Mod}[1]{\:\mathrm{mod}\:#1}
+\author{Marcio Woitek}
+\date{}
+\title{Quiz on RSA}
+\hypersetup{
+ pdfauthor={Marcio Woitek},
+ pdftitle={Quiz on RSA},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.3 (Org mode 9.6.24)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\section*{Problem 1}
+\label{sec:org94ffc08}
+\textbf{Answer: 20}
+
+\begin{equation}
+\varphi(33) = \varphi(3\cdot 11) = (3-1)(11-1) = 20.
+\end{equation}
+
+\section*{Problem 2}
+\label{sec:orgd5e9c79}
+\textbf{Answer: \(p-1\)}
+
+\section*{Problem 3}
+\label{sec:org41b959e}
+\textbf{Answer: 4}\\[0pt]
+
+When the consider the integers \(k\) in the range \(1\leq k\leq 12\), there are only 4
+integers that are relatively prime to 12: 1, 5, 7, 11. Hence:
+\begin{equation}
+\varphi(12)=4.
+\end{equation}
+
+\section*{Problem 4}
+\label{sec:org30bf22b}
+\textbf{Answer: 1}\\[0pt]
+
+First notice that \(77 = 7 \cdot 11\). Since 7 and 11 are prime numbers, the value
+of the totient function for 77 is
+\begin{equation}
+\varphi(77) = (7 - 1) (11 - 1) = 60.
+\end{equation}
+This result allows us to write
+\begin{equation*}
+10^{60} \Mod 77 = 10^{\varphi(77)} \Mod 77.
+\end{equation*}
+Next, we use the fact that \(10 = 2 \cdot 5\). This expression makes it clear that
+10 and 77 don't have prime factors in common. In other words, these numbers are
+relatively prime. Then we can apply Euler's totient theorem, which yields
+\begin{equation}
+10^{60} \Mod 77 = 1.
+\end{equation}
+
+\section*{Problem 5}
+\label{sec:org57326ed}
+\textbf{Answer: 1}\\[0pt]
+
+To determine the last digit of \(a^{4}\), we need to compute \(a^{4}\Mod 10\). To
+compute this value, first notice that
+\begin{equation}
+\varphi(10)=\varphi(2\cdot 5)=(2-1)(5-1)=4.
+\end{equation}
+We'll also use the fact that \(a\) and 10 are relatively prime. This has to be
+true, since by hypothesis \(a\) is not divisible by 2 or 5. This means 2 and 5 are
+not prime factors of \(a\). But they are the only prime factors of 10. Then \(a\)
+and 10 don't have prime factors in common, i.e., they're relatively prime.\\[0pt]
+With the aid of Euler's theorem, we obtain the following for the last digit of
+\(a^{4}\):
+\begin{equation}
+a^{4}\Mod 10=a^{\varphi(10)}\Mod 10=1.
+\end{equation}
+
+\section*{Problem 6}
+\label{sec:org22a2167}
+\begin{itemize}
+\item \(\varphi(n)\): \(\varphi(n)=\varphi(33)=20\) [see Problem 1]
+\item \(e^{\varphi(n)}\Mod n\): \(e\) and \(n\) are relatively prime, which means this
+value equals 1 (by Euler's theorem).
+\item \(\mathrm{GCD}(e,\varphi(n))\): \(\mathrm{GCD}(e,\varphi(n))=\mathrm{GCD}(7,20)=1\)
+\item \((d,k)\) such that \(de-k\varphi(n)=1\): We need to solve the equation
+\(7d-20k=1\). We could do that using the extended Euclidean algorithm. But it's
+easy to guess a solution: \((d,k)=(3,1)\).
+\item Public Key: \((e,n)=(7,33)\)
+\item Private Key: \((d,n)=(3,33)\)
+\end{itemize}
+
+\section*{Problem 7}
+\label{sec:orgc9dabde}
+\begin{itemize}
+\item The prime factors of \(n\).
+\item The Euler totient function \(\varphi(n)\).
+\end{itemize}
+\end{document}
