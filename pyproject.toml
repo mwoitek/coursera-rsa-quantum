@@ -1,0 +1,39 @@
+[tool.pyright]
+typeCheckingMode = "basic"
+reportUnnecessaryCast = "information"
+reportUnnecessaryTypeIgnoreComment = "information"
+reportUnusedExpression = false
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+unsafe-fixes = false
+
+[tool.ruff.lint]
+select = [
+  "A",
+  "C401",
+  "C417",
+  "E741",
+  "EM",
+  "F841",
+  "FBT",
+  "G004",
+  "I",
+  "N806",
+  "PLR0402",
+  "PLR1722",
+  "PT018",
+  "PTH",
+  "PYI036",
+  "RET502",
+  "RUF100",
+  "S113",
+  "SIM105",
+  "SIM108",
+  "TRY201",
+  "UP",
+]
+
+[tool.ruff.lint.isort]
+case-sensitive = true
