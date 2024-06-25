@@ -1,0 +1,78 @@
+% Created 2024-06-24 Mon 23:12
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\usepackage[american, english]{babel}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[sc]{mathpazo}
+\usepackage{braket}
+\linespread{1.05}
+\renewcommand{\labelitemi}{$\rhd$}
+\setlength\parindent{0pt}
+\setlist[itemize]{leftmargin=*}
+\setlist{nosep}
+\newcommand{\invroot}[1]{\frac{1}{\sqrt{#1}}}
+\newcommand{\sqnorm}[1]{\left|#1\right|^2}
+\author{Marcio Woitek}
+\date{}
+\title{Qubits}
+\hypersetup{
+ pdfauthor={Marcio Woitek},
+ pdftitle={Qubits},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.3 (Org mode 9.8)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+\section*{Problem 1}
+\label{sec:org1c82b41}
+\begin{itemize}
+\item Measuring it yields 0 and 1 with equal probabilities
+\(\left(\frac{1}{2}\right)\).
+\item Upon measurement the super position collapses to one of the pure states
+\(\ket{0}\) or \(\ket{1}\).
+\end{itemize}
+\section*{Problem 2}
+\label{sec:org712a166}
+\begin{itemize}
+\item \(\frac{\sqrt{3}}{2}\ket{0}+\frac{1}{2}\ket{1}\)
+\item 0
+\item 1
+\end{itemize}
+\section*{Problem 3}
+\label{sec:org5405d4d}
+The general form of \(\ket{-}\) is
+\begin{equation}
+\ket{-}=c_0\ket{0}+c_1\ket{1},
+\end{equation}
+where \(\sqnorm{c_0}+\sqnorm{c_1}=1\). Since we want \(\ket{+}\) and
+\(\ket{-}\) to be orthogonal, the following must hold:
+\begin{equation}
+\braket{+|-}=0\qquad\Rightarrow\qquad\invroot{2}c_0+\invroot{2}c_1=0\qquad\Rightarrow\qquad c_0+c_1=0.
+\end{equation}
+Then we have \(c_1=-c_0\). Assuming these constants are real numbers, we can
+write the other condition as follows:
+\begin{equation}
+2c_0^2=1\qquad\Rightarrow\qquad c_0=\invroot{2}.
+\end{equation}
+Hence:
+\begin{equation}
+\ket{-}=\invroot{2}\left(\ket{0}-\ket{1}\right).
+\end{equation}
+\end{document}

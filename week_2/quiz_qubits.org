@@ -1,0 +1,66 @@
+#+AUTHOR: Marcio Woitek
+#+TITLE: Qubits
+#+DATE:
+#+LATEX_HEADER: \usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+#+LATEX_HEADER: \usepackage[american]{babel}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage[sc]{mathpazo}
+#+LATEX_HEADER: \usepackage{braket}
+#+LATEX_HEADER: \linespread{1.05}
+#+LATEX_HEADER: \renewcommand{\labelitemi}{$\rhd$}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \setlist[itemize]{leftmargin=*}
+#+LATEX_HEADER: \setlist{nosep}
+#+LATEX_HEADER: \newcommand{\invroot}[1]{\frac{1}{\sqrt{#1}}}
+#+LATEX_HEADER: \newcommand{\sqnorm}[1]{\left|#1\right|^2}
+#+OPTIONS: toc:nil
+#+STARTUP: hideblocks
+
+#+BEGIN_SRC latex
+\thispagestyle{empty}
+\pagestyle{empty}
+#+END_SRC
+
+* Problem 1
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- Measuring it yields 0 and 1 with equal probabilities
+  \( \left(\frac{1}{2}\right) \).
+- Upon measurement the super position collapses to one of the pure states
+  \( \ket{0} \) or \( \ket{1} \).
+
+* Problem 2
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- \( \frac{\sqrt{3}}{2}\ket{0}+\frac{1}{2}\ket{1} \)
+- 0
+- 1
+
+* Problem 3
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+The general form of \( \ket{-} \) is
+\begin{equation}
+\ket{-}=c_0\ket{0}+c_1\ket{1},
+\end{equation}
+where \( \sqnorm{c_0}+\sqnorm{c_1}=1 \). Since we want \( \ket{+} \) and
+\( \ket{-} \) to be orthogonal, the following must hold:
+\begin{equation}
+\braket{+|-}=0\qquad\Rightarrow\qquad\invroot{2}c_0+\invroot{2}c_1=0\qquad\Rightarrow\qquad c_0+c_1=0.
+\end{equation}
+Then we have \( c_1=-c_0 \). Assuming these constants are real numbers, we can
+write the other condition as follows:
+\begin{equation}
+2c_0^2=1\qquad\Rightarrow\qquad c_0=\invroot{2}.
+\end{equation}
+Hence:
+\begin{equation}
+\ket{-}=\invroot{2}\left(\ket{0}-\ket{1}\right).
+\end{equation}
