@@ -1,0 +1,63 @@
+#+AUTHOR: Marcio Woitek
+#+TITLE: Multiple Qubit Quantum States
+#+DATE:
+#+LATEX_HEADER: \usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+#+LATEX_HEADER: \usepackage[american]{babel}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage[sc]{mathpazo}
+#+LATEX_HEADER: \usepackage{braket}
+#+LATEX_HEADER: \linespread{1.05}
+#+LATEX_HEADER: \renewcommand{\labelitemi}{$\rhd$}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \setlist[itemize]{leftmargin=*}
+#+LATEX_HEADER: \setlist{nosep}
+#+LATEX_HEADER: \newcommand{\invroot}[1]{\frac{1}{\sqrt{#1}}}
+#+OPTIONS: toc:nil
+#+STARTUP: hideblocks
+
+#+BEGIN_SRC latex
+\thispagestyle{empty}
+\pagestyle{empty}
+#+END_SRC
+
+* Problem 1
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- \( \invroot{2}\ket{0}\otimes\ket{1}-\invroot{2}\ket{1}\otimes\ket{1} \)
+- \( \invroot{2}\ket{01}-\invroot{2}\ket{11} \)
+
+* Problem 2
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer:* The superposition collapses to one of the pure states \( \ket{00} \),
+\( \ket{01} \), \( \ket{10} \) with equal probability \( \frac{1}{3} \).
+
+* Problem 3
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer:* After measurement, the first qubit will be in state \( \ket{0} \)
+whereas the second qubit will be in the state \( \invroot{2}(\ket{0}+\ket{1}) \).
+
+* Problem 4
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer:* After measurement, the first qubit will be in state \( \ket{1} \)
+whereas the second qubit will be in the state \( \ket{0} \).
+
+* Problem 5
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- \( \invroot{2}(\ket{00}+\ket{11}) \)
+- \( \invroot{2}(\ket{000}+\ket{111}) \)
+- \( \invroot{3}(\ket{00}+\ket{01}+\ket{11}) \)

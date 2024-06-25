@@ -1,0 +1,67 @@
+% Created 2024-06-25 Tue 07:46
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\usepackage[american, english]{babel}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[sc]{mathpazo}
+\usepackage{braket}
+\linespread{1.05}
+\renewcommand{\labelitemi}{$\rhd$}
+\setlength\parindent{0pt}
+\setlist[itemize]{leftmargin=*}
+\setlist{nosep}
+\newcommand{\invroot}[1]{\frac{1}{\sqrt{#1}}}
+\author{Marcio Woitek}
+\date{}
+\title{Multiple Qubit Quantum States}
+\hypersetup{
+ pdfauthor={Marcio Woitek},
+ pdftitle={Multiple Qubit Quantum States},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.3 (Org mode 9.8)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+\section*{Problem 1}
+\label{sec:org1086980}
+\begin{itemize}
+\item \(\invroot{2}\ket{0}\otimes\ket{1}-\invroot{2}\ket{1}\otimes\ket{1}\)
+\item \(\invroot{2}\ket{01}-\invroot{2}\ket{11}\)
+\end{itemize}
+\section*{Problem 2}
+\label{sec:orge797bf4}
+\textbf{Answer:} The superposition collapses to one of the pure states \(\ket{00}\),
+\(\ket{01}\), \(\ket{10}\) with equal probability \(\frac{1}{3}\).
+\section*{Problem 3}
+\label{sec:org3f3baf4}
+\textbf{Answer:} After measurement, the first qubit will be in state \(\ket{0}\)
+whereas the second qubit will be in the state \(\invroot{2}(\ket{0}+\ket{1})\).
+\section*{Problem 4}
+\label{sec:orgf3b66d3}
+\textbf{Answer:} After measurement, the first qubit will be in state \(\ket{1}\)
+whereas the second qubit will be in the state \(\ket{0}\).
+\section*{Problem 5}
+\label{sec:orgfa6973e}
+\begin{itemize}
+\item \(\invroot{2}(\ket{00}+\ket{11})\)
+\item \(\invroot{2}(\ket{000}+\ket{111})\)
+\item \(\invroot{3}(\ket{00}+\ket{01}+\ket{11})\)
+\end{itemize}
+\end{document}
