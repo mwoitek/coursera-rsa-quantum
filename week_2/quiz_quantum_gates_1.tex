@@ -1,0 +1,80 @@
+% Created 2024-06-25 Tue 03:32
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\usepackage[american, english]{babel}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[sc]{mathpazo}
+\usepackage{braket}
+\linespread{1.05}
+\renewcommand{\labelitemi}{$\rhd$}
+\setlength\parindent{0pt}
+\setlist[itemize]{leftmargin=*}
+\setlist{nosep}
+\newcommand{\invroot}[1]{\frac{1}{\sqrt{#1}}}
+\author{Marcio Woitek}
+\date{}
+\title{Single Qubit Quantum Gates}
+\hypersetup{
+ pdfauthor={Marcio Woitek},
+ pdftitle={Single Qubit Quantum Gates},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.3 (Org mode 9.8)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\newcommand{\twoByTwo}[4]{%
+  \begin{pmatrix}
+    #1 & #2\\
+    #3 & #4
+  \end{pmatrix}%
+}
+\section*{Problem 1}
+\label{sec:org8e4de30}
+\textbf{Answer:} \(\ket{1}\)
+\section*{Problem 2}
+\label{sec:org0c047db}
+\begin{itemize}
+\item It is represented by the matrix \(\twoByTwo{1}{0}{0}{i}\) in the
+computational basis \(\ket{0}\), \(\ket{1}\).
+\item It is a unitary operator.
+\item It is the same as a phase gate with phase \(\frac{\pi}{2}\).
+\end{itemize}
+\section*{Problem 3}
+\label{sec:org4dfdc42}
+\begin{itemize}
+\item Measuring both states yields either outcome 0, 1 with equal probabilities.
+\item If we applied a Hadamard gate then \(H\ket{\varphi}=\ket{0}\) and
+\(H\ket{\psi}=\frac{1}{2}((1+i)\ket{0}+(1-i)\ket{1})\).
+\item The two states can be distinguished upon the application of the Hadamard gate
+and measurement. One of the states always yields \(\ket{0}\) while the other
+yields \(\ket{0}\) and \(\ket{1}\) with equal probabilities.
+\end{itemize}
+\section*{Problem 4}
+\label{sec:org165ec98}
+\begin{itemize}
+\item \(\twoByTwo{0}{1}{1}{0}\)
+\item \(\twoByTwo{\cos(\theta)}{\sin(\theta)}{-\sin(\theta)}{\cos(\theta)}\)
+\item \(\invroot{2}\twoByTwo{1}{1}{1}{-1}\)\\
+\end{itemize}
+
+The option \(\invroot{2}\twoByTwo{i}{-i}{1}{1}\) is also correct. However,
+it's considered wrong.
+\end{document}

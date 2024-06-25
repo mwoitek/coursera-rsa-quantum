@@ -1,0 +1,74 @@
+#+AUTHOR: Marcio Woitek
+#+TITLE: Single Qubit Quantum Gates
+#+DATE:
+#+LATEX_HEADER: \usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+#+LATEX_HEADER: \usepackage[american]{babel}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage[sc]{mathpazo}
+#+LATEX_HEADER: \usepackage{braket}
+#+LATEX_HEADER: \linespread{1.05}
+#+LATEX_HEADER: \renewcommand{\labelitemi}{$\rhd$}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \setlist[itemize]{leftmargin=*}
+#+LATEX_HEADER: \setlist{nosep}
+#+LATEX_HEADER: \newcommand{\invroot}[1]{\frac{1}{\sqrt{#1}}}
+#+OPTIONS: toc:nil
+#+STARTUP: hideblocks
+
+#+BEGIN_SRC latex
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\newcommand{\twoByTwo}[4]{%
+  \begin{pmatrix}
+    #1 & #2\\
+    #3 & #4
+  \end{pmatrix}%
+}
+#+END_SRC
+
+* Problem 1
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer:* \( \ket{1} \)
+
+* Problem 2
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- It is represented by the matrix \( \twoByTwo{1}{0}{0}{i} \) in the
+  computational basis \( \ket{0} \), \( \ket{1} \).
+- It is a unitary operator.
+- It is the same as a phase gate with phase \( \frac{\pi}{2} \).
+
+* Problem 3
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- Measuring both states yields either outcome 0, 1 with equal probabilities.
+- If we applied a Hadamard gate then \( H\ket{\varphi}=\ket{0} \) and
+  \( H\ket{\psi}=\frac{1}{2}((1+i)\ket{0}+(1-i)\ket{1}) \).
+- The two states can be distinguished upon the application of the Hadamard gate
+  and measurement. One of the states always yields \( \ket{0} \) while the other
+  yields \( \ket{0} \) and \( \ket{1} \) with equal probabilities.
+
+* Problem 4
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+- \( \twoByTwo{0}{1}{1}{0} \)
+- \( \twoByTwo{\cos(\theta)}{\sin(\theta)}{-\sin(\theta)}{\cos(\theta)} \)
+- \( \invroot{2}\twoByTwo{1}{1}{1}{-1} \)\\
+
+The option \( \invroot{2}\twoByTwo{i}{-i}{1}{1} \) is also correct. However,
+it's considered wrong.
+
+# Local Variables:
+# ispell-alternate-dictionary: "american"
+# End:
