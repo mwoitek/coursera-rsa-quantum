@@ -1,0 +1,313 @@
+#+AUTHOR: Marcio Woitek
+#+TITLE: Multiple Qubit Quantum Gates
+#+DATE:
+#+LATEX_HEADER: \usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+#+LATEX_HEADER: \usepackage[american]{babel}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage[sc]{mathpazo}
+#+LATEX_HEADER: \usepackage{braket}
+#+LATEX_HEADER: \linespread{1.05}
+#+LATEX_HEADER: \renewcommand{\labelitemi}{$\rhd$}
+#+LATEX_HEADER: \setlength\parindent{0pt}
+#+LATEX_HEADER: \setlist[itemize]{leftmargin=*}
+#+LATEX_HEADER: \setlist{nosep}
+#+LATEX_HEADER: \newcommand{\invroot}[1]{\frac{1}{\sqrt{#1}}}
+#+OPTIONS: toc:nil
+#+STARTUP: hideblocks
+
+#+BEGIN_SRC latex
+\thispagestyle{empty}
+\pagestyle{empty}
+#+END_SRC
+
+* Problem 1
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer:*
+- Apply a Hadamard operation to the first qubit and a Pauli-X (quantum not) gate
+  to the second qubit.\\
+
+_Apply a Pauli-X gate to the first qubit and a Hadamard gate to the second qubit:_\\
+The initial state is \( \ket{00}=\ket{0}\otimes\ket{0} \). This option suggests
+applying the operator \( U=X\otimes H \) to this state vector. Let's check if
+this works:
+\begin{equation}
+U\ket{00}=(X\otimes H)(\ket{0}\otimes\ket{0})=X\ket{0}\otimes H\ket{0}.
+\end{equation}
+The Pauli gate transforms \( \ket{0} \) as follows:
+\begin{equation}
+X\ket{0}=
+  \begin{pmatrix}
+    0 & 1\\
+    1 & 0
+  \end{pmatrix}
+  \begin{pmatrix}
+    1\\
+    0
+  \end{pmatrix}=
+  \begin{pmatrix}
+    0\\
+    1
+  \end{pmatrix}=\ket{1}.
+\end{equation}
+Moreover, we already know that the result of applying \( H \) to \( \ket{0} \) is
+\begin{equation}
+H\ket{0}=\invroot{2}(\ket{0}+\ket{1}).
+\end{equation}
+Hence:
+\begin{equation}
+U\ket{00}=\ket{1}\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]=\invroot{2}(\ket{10}+\ket{11}).
+\end{equation}
+This doesn't match our desired final state. Therefore, this option is *wrong*.\\
+
+_Apply a Hadamard operation to the first qubit and a Pauli-X (quantum not) gate
+to the second qubit:_\\
+The initial state is \( \ket{00}=\ket{0}\otimes\ket{0} \). This option suggests
+applying the operator \( U=H\otimes X \) to this state vector. Let's check if
+this works:
+\begin{align}
+  \begin{split}
+    U\ket{00}&=(H\otimes X)(\ket{0}\otimes\ket{0})\\
+    &=H\ket{0}\otimes X\ket{0}\\
+    &=\left[\invroot{2}(\ket{0}+\ket{1})\right]\otimes\ket{1}\\
+    &=\invroot{2}(\ket{01}+\ket{11}).
+  \end{split}
+\end{align}
+This is exactly what we wanted. Therefore, this option is *correct*. Also notice
+that this result eliminates the option "There is no unitary transformation that
+can achieve this." After all, we've just shown that \( U \) yields the desired
+final state.\\
+
+The remaining option cannot be right, since it requires copying the initial
+quantum state.
+
+* Problem 2
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer:*
+- Apply the operator \( H\otimes I\otimes H \) where \( H \) stands for the
+  single qubit Hadamard gate while \( I \) is the single qubit identity
+  operator.
+- Apply a Hadamard gate to the first and third qubits but leave the second qubit
+  unaltered.\\
+
+_Apply the operator \( H\otimes I\otimes H \) where \( H \) stands for the single
+qubit Hadamard gate while \( I \) is the single qubit identity operator:_\\
+In this case, the initial state is given by
+\begin{equation}
+\ket{\psi}=\invroot{8}(\ket{000}+\ket{001}+\ket{010}+\ket{011}+\ket{100}+\ket{101}+\ket{110}+\ket{111}).
+\end{equation}
+We need to apply \( U=H\otimes I\otimes H \) to this state vector. This means
+computing the following vector:
+\begin{equation}
+U\ket{\psi}=\invroot{8}(U\ket{000}+U\ket{001}+U\ket{010}+U\ket{011}+U\ket{100}+U\ket{101}+U\ket{110}+U\ket{111}).
+\end{equation}
+For the sake of clarity, we're going to compute each of
+\( U\ket{000},\ldots,U\ket{111} \) separately:
+\begin{align}
+  \begin{split}
+    U\ket{000}&=(H\otimes I\otimes H)(\ket{0}\otimes\ket{0}\otimes\ket{0})\\
+    &=H\ket{0}\otimes I\ket{0}\otimes H\ket{0}\\
+    &=\left[\invroot{2}(\ket{0}+\ket{1})\right]\otimes\ket{0}\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]\\
+    &=\left[\invroot{2}(\ket{00}+\ket{10})\right]\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]\\
+    &=\frac{1}{2}(\ket{000}+\ket{100}+\ket{001}+\ket{101})
+  \end{split}
+\end{align}
+\begin{align}
+  \begin{split}
+    U\ket{001}&=(H\otimes I\otimes H)(\ket{0}\otimes\ket{0}\otimes\ket{1})\\
+    &=H\ket{0}\otimes I\ket{0}\otimes H\ket{1}\\
+    &=\left[\invroot{2}(\ket{0}+\ket{1})\right]\otimes\ket{0}\otimes\left[\invroot{2}(\ket{0}-\ket{1})\right]\\
+    &=\left[\invroot{2}(\ket{00}+\ket{10})\right]\otimes\left[\invroot{2}(\ket{0}-\ket{1})\right]\\
+    &=\frac{1}{2}(\ket{000}+\ket{100}-\ket{001}-\ket{101})
+  \end{split}
+\end{align}
+\begin{align}
+  \begin{split}
+    U\ket{010}&=(H\otimes I\otimes H)(\ket{0}\otimes\ket{1}\otimes\ket{0})\\
+    &=H\ket{0}\otimes I\ket{1}\otimes H\ket{0}\\
+    &=\left[\invroot{2}(\ket{0}+\ket{1})\right]\otimes\ket{1}\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]\\
+    &=\left[\invroot{2}(\ket{01}+\ket{11})\right]\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]\\
+    &=\frac{1}{2}(\ket{010}+\ket{110}+\ket{011}+\ket{111})
+  \end{split}
+\end{align}
+\begin{align}
+  \begin{split}
+    U\ket{011}&=(H\otimes I\otimes H)(\ket{0}\otimes\ket{1}\otimes\ket{1})\\
+    &=H\ket{0}\otimes I\ket{1}\otimes H\ket{1}\\
+    &=\left[\invroot{2}(\ket{0}+\ket{1})\right]\otimes\ket{1}\otimes\left[\invroot{2}(\ket{0}-\ket{1})\right]\\
+    &=\left[\invroot{2}(\ket{01}+\ket{11})\right]\otimes\left[\invroot{2}(\ket{0}-\ket{1})\right]\\
+    &=\frac{1}{2}(\ket{010}+\ket{110}-\ket{011}-\ket{111})
+  \end{split}
+\end{align}
+\begin{align}
+  \begin{split}
+    U\ket{100}&=(H\otimes I\otimes H)(\ket{1}\otimes\ket{0}\otimes\ket{0})\\
+    &=H\ket{1}\otimes I\ket{0}\otimes H\ket{0}\\
+    &=\left[\invroot{2}(\ket{0}-\ket{1})\right]\otimes\ket{0}\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]\\
+    &=\left[\invroot{2}(\ket{00}-\ket{10})\right]\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]\\
+    &=\frac{1}{2}(\ket{000}-\ket{100}+\ket{001}-\ket{101})
+  \end{split}
+\end{align}
+\begin{align}
+  \begin{split}
+    U\ket{101}&=(H\otimes I\otimes H)(\ket{1}\otimes\ket{0}\otimes\ket{1})\\
+    &=H\ket{1}\otimes I\ket{0}\otimes H\ket{1}\\
+    &=\left[\invroot{2}(\ket{0}-\ket{1})\right]\otimes\ket{0}\otimes\left[\invroot{2}(\ket{0}-\ket{1})\right]\\
+    &=\left[\invroot{2}(\ket{00}-\ket{10})\right]\otimes\left[\invroot{2}(\ket{0}-\ket{1})\right]\\
+    &=\frac{1}{2}(\ket{000}-\ket{100}-\ket{001}+\ket{101})
+  \end{split}
+\end{align}
+\begin{align}
+  \begin{split}
+    U\ket{110}&=(H\otimes I\otimes H)(\ket{1}\otimes\ket{1}\otimes\ket{0})\\
+    &=H\ket{1}\otimes I\ket{1}\otimes H\ket{0}\\
+    &=\left[\invroot{2}(\ket{0}-\ket{1})\right]\otimes\ket{1}\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]\\
+    &=\left[\invroot{2}(\ket{01}-\ket{11})\right]\otimes\left[\invroot{2}(\ket{0}+\ket{1})\right]\\
+    &=\frac{1}{2}(\ket{010}-\ket{110}+\ket{011}-\ket{111})
+  \end{split}
+\end{align}
+\begin{align}
+  \begin{split}
+    U\ket{111}&=(H\otimes I\otimes H)(\ket{1}\otimes\ket{1}\otimes\ket{1})\\
+    &=H\ket{1}\otimes I\ket{1}\otimes H\ket{1}\\
+    &=\left[\invroot{2}(\ket{0}-\ket{1})\right]\otimes\ket{1}\otimes\left[\invroot{2}(\ket{0}-\ket{1})\right]\\
+    &=\left[\invroot{2}(\ket{01}-\ket{11})\right]\otimes\left[\invroot{2}(\ket{0}-\ket{1})\right]\\
+    &=\frac{1}{2}(\ket{010}-\ket{110}-\ket{011}+\ket{111})
+  \end{split}
+\end{align}
+The next step is to add all these results. To make this calculation easier,
+first we'll compute the sums of consecutive terms:
+\begin{align}
+  \begin{split}
+    U\ket{000}+U\ket{001}&=\ket{000}+\ket{100}\\
+    U\ket{010}+U\ket{011}&=\ket{010}+\ket{110}\\
+    U\ket{100}+U\ket{101}&=\ket{000}-\ket{100}\\
+    U\ket{110}+U\ket{111}&=\ket{010}-\ket{110}
+  \end{split}
+\end{align}
+With these equations, now it's simple to determine the state \( U\ket{\psi} \):
+\begin{equation}
+U\ket{\psi}=\frac{1}{2\sqrt{2}}\cdot 2(\ket{000}+\ket{010})=\invroot{2}(\ket{000}+\ket{010}).
+\end{equation}
+This is the desired final state. Therefore, this option is *correct*. Notice
+that we've also eliminated the option "There is no way to do this with a unitary
+operation."\\
+
+_Apply a Hadamard gate to the first and third qubits but leave the second qubit
+unaltered:_\\
+This option says the same as the one we've just shown is right. Therefore, this
+option is also *correct*.\\
+
+The remaining option is just silly. It's obviously *wrong*. We cannot simply
+"zap components".
+
+* Problem 3
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer:* Apply a controlled-X (quantum not) operation to the second qubit with
+the first qubit as the control qubit.\\
+
+_Justification:_\\
+The initial state is
+\begin{equation}
+\ket{\psi}=\invroot{2}(\ket{00}+\ket{10})=\invroot{2}
+  \begin{pmatrix}
+    1\\
+    0\\
+    1\\
+    0
+  \end{pmatrix}.
+\end{equation}
+The matrix representation of the operation described above can be written as
+\begin{equation}
+U=\begin{pmatrix}
+    1 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0\\
+    0 & 0 & 0 & 1\\
+    0 & 0 & 1 & 0
+  \end{pmatrix}.
+\end{equation}
+Then the transformed state can be computed as follows:
+\begin{equation}
+U\ket{\psi}=\invroot{2}
+  \begin{pmatrix}
+    1 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0\\
+    0 & 0 & 0 & 1\\
+    0 & 0 & 1 & 0
+  \end{pmatrix}
+  \begin{pmatrix}
+    1\\
+    0\\
+    1\\
+    0
+  \end{pmatrix}=\invroot{2}
+  \begin{pmatrix}
+    1\\
+    0\\
+    0\\
+    1
+  \end{pmatrix}=\invroot{2}(\ket{00}+\ket{11}).
+\end{equation}
+This is exactly what we wanted. Therefore, this is the correct option.
+
+* Problem 4
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+*Answer:* \( \invroot{2}(\ket{00}+i\ket{11}) \)\\
+
+First, recall that the phase gate with phase \( \frac{\pi}{2} \) is
+\begin{equation}
+P\left(\frac{\pi}{2}\right)=
+  \begin{pmatrix}
+    1 & 0\\
+    0 & i
+  \end{pmatrix}.
+\end{equation}
+Then the controlled gate described in the problem statement can be expressed as
+\begin{equation}
+U=\begin{pmatrix}
+    1 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0\\
+    0 & 0 & 1 & 0\\
+    0 & 0 & 0 & i
+  \end{pmatrix}.
+\end{equation}
+To obtain the desired result, all we need to do is to apply this operator to the
+state vector \( \ket{\psi}=\invroot{2}(\ket{00}+\ket{11}) \):
+\begin{equation}
+U\ket{\psi}=\invroot{2}
+  \begin{pmatrix}
+    1 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0\\
+    0 & 0 & 1 & 0\\
+    0 & 0 & 0 & i
+  \end{pmatrix}
+  \begin{pmatrix}
+    1\\
+    0\\
+    0\\
+    1
+  \end{pmatrix}=\invroot{2}
+  \begin{pmatrix}
+    1\\
+    0\\
+    0\\
+    i
+  \end{pmatrix}=\invroot{2}(\ket{00}+i\ket{11}).
+\end{equation}
+
+# Local Variables:
+# ispell-alternate-dictionary: "american"
+# org-highlight-latex-and-related: nil
+# End:
