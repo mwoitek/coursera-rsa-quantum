@@ -1,0 +1,445 @@
+% Created 2024-06-28 Fri 00:34
+% Intended LaTeX compiler: pdflatex
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\usepackage[american, english]{babel}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[sc]{mathpazo}
+\usepackage{braket}
+\usepackage{mathtools}
+\linespread{1.05}
+\renewcommand{\labelitemi}{$\rhd$}
+\setlength\parindent{0pt}
+\setlist[itemize]{leftmargin=*}
+\setlist{nosep}
+\newcommand{\invroot}[1]{\frac{1}{\sqrt{#1}}}
+\author{Marcio Woitek}
+\date{}
+\title{Quantum Parallelism and Implementing Classical Gates}
+\hypersetup{
+ pdfauthor={Marcio Woitek},
+ pdftitle={Quantum Parallelism and Implementing Classical Gates},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.4 (Org mode 9.8)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+\section*{Problem 1}
+\label{sec:orgc525722}
+\textbf{Answer:}
+\begin{itemize}
+\item Applying \(U\) to the state of the form \(a\ket{00}+b\ket{11}\) yields the
+super position \(b\ket{00}+a\ket{11}\).
+\item Applying \(U\) to the uniform superposition \(\ket{\psi}\) of two qubits
+will leave it unaltered.
+\item The unitary matrix \(U\) will be \(\begin{psmallmatrix}
+    0 & 0 & 0 & 1\\
+    0 & 1 & 0 & 0\\
+    0 & 0 & 1 & 0\\
+    1 & 0 & 0 & 0
+  \end{psmallmatrix}\).\\
+\end{itemize}
+
+\uline{Applying \(U\) to the state of the form \(a\ket{00}+b\ket{11}\) yields the
+super position \(b\ket{00}+a\ket{11}\):}\\
+According to the problem statement, the operator \(U\) satisfies the
+following:
+\begin{align}
+  \begin{split}
+    U\ket{00}&=\ket{11},\\
+    U\ket{11}&=\ket{00},\\
+    U\ket{01}&=\ket{01},\\
+    U\ket{10}&=\ket{10}.
+  \end{split}
+\end{align}
+Hence:
+\begin{align}
+  \begin{split}
+    U(a\ket{00}+b\ket{11})&=aU\ket{00}+bU\ket{11}\\
+    &=a\ket{11}+b\ket{00}\\
+    &=b\ket{00}+a\ket{11}
+  \end{split}
+\end{align}
+Therefore, this option is \textbf{correct}.\\
+
+\uline{Applying \(U\) to the uniform superposition \(\ket{\psi}\) of two qubits
+will leave it unaltered:}\\
+Recall that the uniform superposition can be written as
+\begin{equation}
+\ket{\psi}=\frac{1}{2}(\ket{00}+\ket{01}+\ket{10}+\ket{11}).
+\end{equation}
+By applying \(U\) to this vector, we get
+\begin{align}
+  \begin{split}
+    U\ket{\psi}&=\frac{1}{2}(U\ket{00}+U\ket{01}+U\ket{10}+U\ket{11})\\
+    &=\frac{1}{2}(\ket{11}+\ket{01}+\ket{10}+\ket{00})\\
+    &=\frac{1}{2}(\ket{00}+\ket{01}+\ket{10}+\ket{11})\\
+    &=\ket{\psi}.
+  \end{split}
+\end{align}
+Therefore, this option is \textbf{correct}.\\
+
+Another \textbf{correct option} is the following:\\
+The unitary matrix \(U\) will be
+\begin{equation}
+\begin{pmatrix}
+  0 & 0 & 0 & 1\\
+  0 & 1 & 0 & 0\\
+  0 & 0 & 1 & 0\\
+  1 & 0 & 0 & 0
+\end{pmatrix}.
+\end{equation}
+This fact can be easily checked by multiplying this matrix by the column vectors
+corresponding to the pure states. We won't present these calculations. Notice
+that the only remaining option must be \textbf{wrong}, since it contradicts the one
+above.
+
+\newpage
+\section*{Problem 2}
+\label{sec:org50fab4f}
+\textbf{Answer:}
+\begin{itemize}
+\item The multicontrol-X gate with two control qubits is also called the ``Toffoli''
+gate.
+\item Apply a multicontrolled X gate with \(b_1,b_2\) as the control gates
+operating on the ancillary qubit \(b\). Note that multi-controlled X gate
+will apply the X gate onto \(b\) only if \(b_1,b_2\) are both 1 or
+otherwise leave the result unchanged.\\
+\end{itemize}
+
+Let's start from the truth table for the operation we wish to implement:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\(b_1\) & \(b_2\) & \(b\) & \(b_1\wedge b_2\) & \(b\oplus(b_1\wedge b_2)\)\\
+\hline
+0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 1\\
+0 & 1 & 0 & 0 & 0\\
+0 & 1 & 1 & 0 & 1\\
+1 & 0 & 0 & 0 & 0\\
+1 & 0 & 1 & 0 & 1\\
+1 & 1 & 0 & 1 & 1\\
+1 & 1 & 1 & 1 & 0\\
+\hline
+\end{tabular}
+\end{center}
+Next, denote the desired unitary operator by \(U\). We can convert our table
+into a set of equations that \(U\) must satisfy:
+\begin{align}
+  \begin{split}
+    U\ket{000}&=\ket{000},\\
+    U\ket{001}&=\ket{001},\\
+    U\ket{010}&=\ket{010},\\
+    U\ket{011}&=\ket{011},\\
+    U\ket{100}&=\ket{100},\\
+    U\ket{101}&=\ket{101},\\
+    U\ket{110}&=\ket{111},\\
+    U\ket{111}&=\ket{110}.
+  \end{split}
+\end{align}
+Notice we've used the fact that \(U\) leaves \(b_1\) and \(b_2\)
+unchanged. Also notice that, in many cases, \(U\) acts like the identity
+operator. In fact, there are only two cases in which \(U\) acts differently.
+For the sake of clarity, we write the corresponding equations one more time:
+\begin{align}
+  \begin{split}
+    U\ket{110}&=\ket{111},\\
+    U\ket{111}&=\ket{110}.
+  \end{split}
+\end{align}
+These equations show that \(U\) is a CNOT gate with two control qubits and one
+target qubit. After all, the action of this operator is to negate \(b_3\), but
+only when \(b_1=b_2=1\). Therefore, the option that talks about a
+multicontrolled gate is \textbf{correct}. Moreover, the option that discusses a
+different implementation must be \textbf{wrong}.\\
+With the aid of the above equations, it's straightforward to determine the
+matrix representation of \(U\):
+\begin{equation}
+U=
+  \begin{pmatrix}
+    \braket{000|U|000} & \braket{000|U|001} & \braket{000|U|010} & \braket{000|U|011} & \braket{000|U|100} & \braket{000|U|101} & \braket{000|U|110} & \braket{000|U|111}\\
+    \braket{001|U|000} & \braket{001|U|001} & \braket{001|U|010} & \braket{001|U|011} & \braket{001|U|100} & \braket{001|U|101} & \braket{001|U|110} & \braket{001|U|111}\\
+    \braket{010|U|000} & \braket{010|U|001} & \braket{010|U|010} & \braket{010|U|011} & \braket{010|U|100} & \braket{010|U|101} & \braket{010|U|110} & \braket{010|U|111}\\
+    \braket{011|U|000} & \braket{011|U|001} & \braket{011|U|010} & \braket{011|U|011} & \braket{011|U|100} & \braket{011|U|101} & \braket{011|U|110} & \braket{011|U|111}\\
+    \braket{100|U|000} & \braket{100|U|001} & \braket{100|U|010} & \braket{100|U|011} & \braket{100|U|100} & \braket{100|U|101} & \braket{100|U|110} & \braket{100|U|111}\\
+    \braket{101|U|000} & \braket{101|U|001} & \braket{101|U|010} & \braket{101|U|011} & \braket{101|U|100} & \braket{101|U|101} & \braket{101|U|110} & \braket{101|U|111}\\
+    \braket{110|U|000} & \braket{110|U|001} & \braket{110|U|010} & \braket{110|U|011} & \braket{110|U|100} & \braket{110|U|101} & \braket{110|U|110} & \braket{110|U|111}\\
+    \braket{111|U|000} & \braket{111|U|001} & \braket{111|U|010} & \braket{111|U|011} & \braket{111|U|100} & \braket{111|U|101} & \braket{111|U|110} & \braket{111|U|111}
+  \end{pmatrix}.
+\end{equation}
+We know how the operator \(U\) acts on the pure states. By using this
+information, we can simplify the last expression to
+\begin{equation}
+U=
+  \begin{pmatrix}
+    \braket{000|000} & \braket{000|001} & \braket{000|010} & \braket{000|011} & \braket{000|100} & \braket{000|101} & \braket{000|111} & \braket{000|110}\\
+    \braket{001|000} & \braket{001|001} & \braket{001|010} & \braket{001|011} & \braket{001|100} & \braket{001|101} & \braket{001|111} & \braket{001|110}\\
+    \braket{010|000} & \braket{010|001} & \braket{010|010} & \braket{010|011} & \braket{010|100} & \braket{010|101} & \braket{010|111} & \braket{010|110}\\
+    \braket{011|000} & \braket{011|001} & \braket{011|010} & \braket{011|011} & \braket{011|100} & \braket{011|101} & \braket{011|111} & \braket{011|110}\\
+    \braket{100|000} & \braket{100|001} & \braket{100|010} & \braket{100|011} & \braket{100|100} & \braket{100|101} & \braket{100|111} & \braket{100|110}\\
+    \braket{101|000} & \braket{101|001} & \braket{101|010} & \braket{101|011} & \braket{101|100} & \braket{101|101} & \braket{101|111} & \braket{101|110}\\
+    \braket{110|000} & \braket{110|001} & \braket{110|010} & \braket{110|011} & \braket{110|100} & \braket{110|101} & \braket{110|111} & \braket{110|110}\\
+    \braket{111|000} & \braket{111|001} & \braket{111|010} & \braket{111|011} & \braket{111|100} & \braket{111|101} & \braket{111|111} & \braket{111|110}
+  \end{pmatrix}.
+\end{equation}
+This matrix still looks complicated, but most of its elements vanish. This is a
+consequence of the fact that the inner products
+\(\braket{b_1b_2b_3|b_{1}^{\prime}b_{2}^{\prime}b_{3}^{\prime}}\)
+are non-zero only when \(b_i=b_{i}^{\prime},\:\forall i\). This allows us to
+write \(U\) in the following way:
+\begin{equation}
+U=
+  \begin{pmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+    0 & 0 & 0 & 0 & 0 & 0 & 1 & 0
+  \end{pmatrix}.
+\end{equation}
+This operator is known as the \textbf{Toffoli or CCNOT gate}.\\
+There's only one option remaining: it talks about ``checking \(b_1\) and \(b_2\)''.
+The corresponding statement is \textbf{wrong}. In Quantum Computing, one doesn't simply
+``check'' the value of a qubit. That would require a measurement, which affects
+the circuit operation.
+\section*{Problem 3}
+\label{sec:org737f7ad}
+\textbf{Answer:} This can be done by first applying a multi-controlled X (Toffoli) gate
+on \(b_3\) with \(b_1,b_2\) as control qubits and then applying a controlled
+X gate on \(b_2\) with \(b_1\) as the control qubit.\\
+\textbf{Note:} I don't believe this option is actually right, but it is accepted as
+correct.\\
+
+Let's start from the truth table for the operation we wish to implement:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\(b_1\) & \(b_2\) & \(b_3\) & \(b_1\oplus b_2\) & \(b_1\oplus b_2\oplus b_3\)\\
+\hline
+0 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 1\\
+0 & 1 & 0 & 1 & 1\\
+0 & 1 & 1 & 1 & 0\\
+1 & 0 & 0 & 1 & 1\\
+1 & 0 & 1 & 1 & 0\\
+1 & 1 & 0 & 0 & 0\\
+1 & 1 & 1 & 0 & 1\\
+\hline
+\end{tabular}
+\end{center}
+Next, denote the desired unitary operator by \(U\). We can convert our table
+into a set of equations that \(U\) must satisfy:
+\begin{align}
+  \begin{split}
+    U\ket{000}&=\ket{000},\\
+    U\ket{001}&=\ket{001},\\
+    U\ket{010}&=\ket{011},\\
+    U\ket{011}&=\ket{010},\\
+    U\ket{100}&=\ket{111},\\
+    U\ket{101}&=\ket{110},\\
+    U\ket{110}&=\ket{100},\\
+    U\ket{111}&=\ket{101}.
+  \end{split}
+\end{align}
+With the aid of the above equations, it's straightforward to determine the
+matrix representation of \(U\):
+\begin{equation}
+U=
+  \begin{pmatrix}
+    \braket{000|U|000} & \braket{000|U|001} & \braket{000|U|010} & \braket{000|U|011} & \braket{000|U|100} & \braket{000|U|101} & \braket{000|U|110} & \braket{000|U|111}\\
+    \braket{001|U|000} & \braket{001|U|001} & \braket{001|U|010} & \braket{001|U|011} & \braket{001|U|100} & \braket{001|U|101} & \braket{001|U|110} & \braket{001|U|111}\\
+    \braket{010|U|000} & \braket{010|U|001} & \braket{010|U|010} & \braket{010|U|011} & \braket{010|U|100} & \braket{010|U|101} & \braket{010|U|110} & \braket{010|U|111}\\
+    \braket{011|U|000} & \braket{011|U|001} & \braket{011|U|010} & \braket{011|U|011} & \braket{011|U|100} & \braket{011|U|101} & \braket{011|U|110} & \braket{011|U|111}\\
+    \braket{100|U|000} & \braket{100|U|001} & \braket{100|U|010} & \braket{100|U|011} & \braket{100|U|100} & \braket{100|U|101} & \braket{100|U|110} & \braket{100|U|111}\\
+    \braket{101|U|000} & \braket{101|U|001} & \braket{101|U|010} & \braket{101|U|011} & \braket{101|U|100} & \braket{101|U|101} & \braket{101|U|110} & \braket{101|U|111}\\
+    \braket{110|U|000} & \braket{110|U|001} & \braket{110|U|010} & \braket{110|U|011} & \braket{110|U|100} & \braket{110|U|101} & \braket{110|U|110} & \braket{110|U|111}\\
+    \braket{111|U|000} & \braket{111|U|001} & \braket{111|U|010} & \braket{111|U|011} & \braket{111|U|100} & \braket{111|U|101} & \braket{111|U|110} & \braket{111|U|111}
+  \end{pmatrix}.
+\end{equation}
+We know how the operator \(U\) acts on the pure states. By using this
+information, we can simplify the last expression to
+\begin{equation}
+U=
+  \begin{pmatrix}
+    \braket{000|000} & \braket{000|001} & \braket{000|011} & \braket{000|010} & \braket{000|111} & \braket{000|110} & \braket{000|100} & \braket{000|101}\\
+    \braket{001|000} & \braket{001|001} & \braket{001|011} & \braket{001|010} & \braket{001|111} & \braket{001|110} & \braket{001|100} & \braket{001|101}\\
+    \braket{010|000} & \braket{010|001} & \braket{010|011} & \braket{010|010} & \braket{010|111} & \braket{010|110} & \braket{010|100} & \braket{010|101}\\
+    \braket{011|000} & \braket{011|001} & \braket{011|011} & \braket{011|010} & \braket{011|111} & \braket{011|110} & \braket{011|100} & \braket{011|101}\\
+    \braket{100|000} & \braket{100|001} & \braket{100|011} & \braket{100|010} & \braket{100|111} & \braket{100|110} & \braket{100|100} & \braket{100|101}\\
+    \braket{101|000} & \braket{101|001} & \braket{101|011} & \braket{101|010} & \braket{101|111} & \braket{101|110} & \braket{101|100} & \braket{101|101}\\
+    \braket{110|000} & \braket{110|001} & \braket{110|011} & \braket{110|010} & \braket{110|111} & \braket{110|110} & \braket{110|100} & \braket{110|101}\\
+    \braket{111|000} & \braket{111|001} & \braket{111|011} & \braket{111|010} & \braket{111|111} & \braket{111|110} & \braket{111|100} & \braket{111|101}
+  \end{pmatrix}.
+\end{equation}
+This matrix still looks complicated, but most of its elements vanish. This is a
+consequence of the fact that the inner products
+\(\braket{b_1b_2b_3|b_{1}^{\prime}b_{2}^{\prime}b_{3}^{\prime}}\)
+are non-zero only when \(b_i=b_{i}^{\prime},\:\forall i\). This allows us to
+write \(U\) in the following way:
+\begin{equation}
+U=
+  \begin{pmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+    0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+    0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0
+  \end{pmatrix}.
+\end{equation}
+It's possible to show that this matrix is invertible. Its inverse is given by
+\begin{equation}
+U^{-1}=
+  \begin{pmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+    0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+    0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+  \end{pmatrix}.
+\end{equation}
+By comparing the last two expressions, one can conclude that \(U\) and
+\(U^{-1}\) are \textbf{not} equal. This eliminates one of the options.\\
+Next, we check whether \(U\) is unitary. Since we already know its inverse, we
+only need to compute its adjoint. It's easy to show that
+\begin{equation}
+U^{\dagger}=
+  \begin{pmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+    0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+    0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+  \end{pmatrix}.
+\end{equation}
+Once again, compare the last two equations. Clearly, we have
+\(U^{-1}=U^{\dagger}\). Therefore, this operator is unitary. This means we've
+found a unitary transformation that implements the desired operation.
+Then two more options can be eliminated. Specifically, we can eliminate
+\begin{itemize}
+\item the option saying that \(U\) is not unitary, and
+\item the option saying that it's not possible to implement the desired operation.
+\end{itemize}
+A single option remains. That must be the right one. Indeed, it is accepted as
+correct. But I believe it's actually wrong. This option suggests that \(U\)
+can be factored as follows: \(U=U_2U_1\), where \(U_1\) denotes the Toffoli
+gate, and \(U_2\) represents a controlled X gate with \(b_1\) as the control
+and \(b_2\) as the target. Perhaps I'm wrong, but I think that the three-qubit
+version of this operator should act according to
+\begin{align}
+  \begin{split}
+    U_2\ket{000}&=\ket{000},\\
+    U_2\ket{001}&=\ket{001},\\
+    U_2\ket{010}&=\ket{010},\\
+    U_2\ket{011}&=\ket{011},\\
+    U_2\ket{100}&=\ket{110},\\
+    U_2\ket{101}&=\ket{111},\\
+    U_2\ket{110}&=\ket{100},\\
+    U_2\ket{111}&=\ket{101}.
+  \end{split}
+\end{align}
+These equations tell us that \(U_2\) negates \(b_2\) only when \(b_1=1\).
+Moreover, in every case, this operator leaves the value of \(b_3\) unaltered.
+It's straightforward to show that the corresponding matrix representation is
+\begin{equation}
+U_2=
+  \begin{pmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+  \end{pmatrix}.
+\end{equation}
+By using this result along with the formula for \(U_1\) from the previous
+problem, we can compute the product \(U_2U_1\). Recall that this should be
+equal to \(U\). However, that's not what we get. One can verify that
+\begin{equation}
+U-U_2U_1=
+  \begin{pmatrix}
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 0 & -1 & 1 & 0 & 0 & 0 & 0\\
+    0 & 0 & 1 & -1 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 0 & 0 & 0 & 1 & -1\\
+    0 & 0 & 0 & 0 & 0 & 0 & -1 & 1\\
+    0 & 0 & 0 & 0 & -1 & 1 & 0 & 0\\
+    0 & 0 & 0 & 0 & 1 & -1 & 0 & 0
+  \end{pmatrix}.
+\end{equation}
+This should be a matrix with all elements equal to 0. Therefore, I believe the
+remaining option is also wrong. I don't discard the possibility that I'm the one
+who is incorrect. However, it wouldn't be the first time I catch this kind of
+mistake.
+\section*{Problem 4}
+\label{sec:org9143ead}
+\textbf{Answer:} The ancillary qubit collapses to either a 1 or a 0 and the input
+qubits \(b_1,\ldots,b_n\) collapse to a uniform combination of all those
+inputs for which \(f(b_1,\ldots,b_n)\) matches the measured result.\\
+
+In the solution to the next problem, there is an example with \(n=2\) and
+\(f(b_1,b_2)=b_1\wedge b_2\).
+\section*{Problem 5}
+\label{sec:org7168ce3}
+\textbf{Answer:}
+\begin{itemize}
+\item The measurement of \(\ket{b}\) yields \(\ket{0}\) with \(\frac{3}{4}\)
+probability and \(\ket{1}\) with \(\frac{1}{4}\) probability.
+\item If we measure \(b=0\) the input qubits collapse into the super position
+\(\invroot{3}(\ket{00}+\ket{01}+\ket{10})\).
+\item If we measure \(b=1\) the input qubits collapse into \(\ket{11}\).\\
+\end{itemize}
+
+The initial state can be expressed as
+\begin{equation}
+\ket{\psi}=\frac{1}{2}(\ket{000}+\ket{010}+\ket{100}+\ket{110}).
+\end{equation}
+By applying the Toffoli gate to this vector, we get
+\begin{align}
+  \begin{split}
+    U\ket{\psi}&=\frac{1}{2}(U\ket{000}+U\ket{010}+U\ket{100}+U\ket{110})\\
+    &=\frac{1}{2}(\ket{000}+\ket{010}+\ket{100}+\ket{111}).
+  \end{split}
+\end{align}
+This equation makes it clear that, if we measure the ancillary qubit, the value
+0 occurs with probability \(\frac{3}{4}\), and 1 occurs with probability
+\(\frac{1}{4}\). Moreover, if the result of this measurement is 0, then
+the state of the input qubits collapses to
+\begin{equation*}
+\invroot{3}(\ket{00}+\ket{01}+\ket{10}).
+\end{equation*}
+On the other hand, if we measure \(b=1\), then the input qubits can be only in
+the state \(\ket{11}\). Therefore, the statement ``Measuring \(b\) has no
+effect on the input qubits'' is \textbf{wrong}.
+\end{document}
