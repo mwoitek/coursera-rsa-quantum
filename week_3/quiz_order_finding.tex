@@ -1,0 +1,131 @@
+% Created 2024-06-28 Fri 21:45
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[a4paper,left=1cm,right=1cm,top=1cm,bottom=1cm]{geometry}
+\usepackage[american, english]{babel}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[sc]{mathpazo}
+\linespread{1.05}
+\renewcommand{\labelitemi}{$\rhd$}
+\setlength\parindent{0pt}
+\setlist[itemize]{leftmargin=*}
+\setlist{nosep}
+\newcommand{\Mod}{\mathrm{mod}\:}
+\date{}
+\title{Order Finding and Factoring}
+\hypersetup{
+ pdfauthor={Marcio Woitek},
+ pdftitle={Order Finding and Factoring},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 29.4 (Org mode 9.8)}, 
+ pdflang={English}}
+\begin{document}
+
+\thispagestyle{empty}
+\pagestyle{empty}
+\section*{Problem 1}
+\label{sec:org8d0e01e}
+
+\textbf{Answer:} 4\\
+
+This value was computed in one of the lectures. The order is \(r=4\), since
+\(7^4\:\Mod 15=1\).
+\section*{Problem 2}
+\label{sec:org9450469}
+
+\textbf{Answer:}
+\begin{itemize}
+\item \(7^{20}\:\Mod 55=1\)
+\item \(7^{10}\:\Mod 55\neq 1\)
+\item \((7^{10}+1)\:\Mod 55\neq 0\), and it has a common factor with 55.
+\item \((7^{10}-1)\:\Mod 55\) has a common factor with 55 since
+\((7^{10}+1)\:\Mod 55\neq 0\).\\
+\end{itemize}
+
+Since \(r=20\) is the order, the following must hold:
+\begin{equation}
+7^{20}\:\Mod 55=1.
+\end{equation}
+Next, consider the options related to \(7^{10}\:\Mod 55\). It's
+straightforward to show that
+\begin{equation}
+7^{10}\:\Mod 55=34.
+\end{equation}
+Clearly, we have \(7^{10}\:\Mod 55\neq 1\). Moreover, 34 has no factor in
+common with 55. After all, the corresponding prime factorizations are
+\(34=2\cdot 17\) and \(55=5\cdot 11\).\\
+With the aid of our last result, we can analyze the remaining options. First
+notice that
+\begin{align}
+  \begin{split}
+    \left(7^{10}+1\right)\Mod 55&=35,\\
+    \left(7^{10}-1\right)\Mod 55&=33.
+  \end{split}
+\end{align}
+The first equation tells us that 55 does not divide \(7^{10}+1\). In this
+case, these numbers have a common factor given by
+\begin{align}
+  \begin{split}
+    d&=\gcd\left(7^{10}+1,55\right)\\
+    &=\gcd\left(55,\left(7^{10}+1\right)\Mod 55\right)\\
+    &=\gcd(55,35)\\
+    &=5.
+  \end{split}
+\end{align}
+This result allows us to find another non-trivial factor of \(N=55\):
+\begin{equation}
+\frac{N}{d}=\frac{55}{5}=11.
+\end{equation}
+This is one of the prime factors of 33. Therefore, \((7^{10}-1)\:\Mod 55\) has a
+common factor with 55.\\
+The last remaining option is \textbf{wrong}. \((a^{r/2}-1)\:\Mod 55\) has a common
+factor with 55 only when this number does not divide \(a^{r/2}+1\).
+\section*{Problem 3}
+\label{sec:orgdc2146a}
+
+\textbf{Answer:}
+\begin{itemize}
+\item \(p\)
+\item \(q\)\\
+\end{itemize}
+
+The problem statement describes the case in which \(n\) and \(a^{r/2}+1\)
+have a non-trivial common factor. This factor is given by \(\gcd(a^{r/2}+1,n)\).
+Since \(n\) has only two factors, \(p\) and \(q\), these are the only
+possible results for the GCD.
+\section*{Problem 4}
+\label{sec:orgb1ad0da}
+
+\textbf{Answer:} \(O(m^3)\): \(2m\) multiplications of \(m\) bit numbers and
+\(2m\) modulo operations.\\
+
+For every bit in the exponent \(k\), we need to perform at most 2
+multiplication + modulo operations. In total, we perform at most \(2m\) such
+operations. Since the time cost of a single operation is \(O(m^2)\), the
+complexity of modular exponentiation is \(O(m^3)\).
+\section*{Problem 5}
+\label{sec:org2f9fe44}
+
+\textbf{Answer:}
+\begin{itemize}
+\item Modular exponentiation is about computing \(a^k\:\Mod n\) once for a given
+\(k\). However, order finding repeatedly needs to compute \(a^k\:\Mod n\)
+for various \(k\) until the result is 1.
+\item Repeated squaring yields \(a\:\Mod n,a^2\:\Mod n,a^4\:\Mod n,\ldots ,a^{2^k}\:\Mod n\).
+However the actual order \(r\) such that \(a^r\:\Mod n=1\) need not be a
+power of 2.
+\end{itemize}
+\end{document}
